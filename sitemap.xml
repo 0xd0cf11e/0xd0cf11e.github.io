@@ -3,20 +3,66 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://0xd0cf11e.github.io/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://0xd0cf11e.github.io/about/</loc>
-    <priority>0</priority>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://0xd0cf11e.github.io/categories/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://0xd0cf11e.github.io/post/debug_idapython_plugin_vscode/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://0xd0cf11e.github.io/tags/ida/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://0xd0cf11e.github.io/categories/ida/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://0xd0cf11e.github.io/post/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://0xd0cf11e.github.io/tags/python/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://0xd0cf11e.github.io/tags/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://0xd0cf11e.github.io/</loc>
+    <loc>https://0xd0cf11e.github.io/tags/vscode/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://0xd0cf11e.github.io/categories/vscode/</loc>
+    <lastmod>2020-04-26T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://0xd0cf11e.github.io/tags/index/</loc>
+  </url>
+  
+  <url>
+    <loc>https://0xd0cf11e.github.io/series/</loc>
   </url>
   
 </urlset>

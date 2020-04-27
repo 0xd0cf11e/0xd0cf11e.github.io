@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="UTF-8">
+    <title>sud0suw</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="Debug IDA Pro plugins" />
+    <meta property="og:description" content="Debugging IDA Pro python plugins with VSCode" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://0xd0cf11e.github.io/post/debug_idapython_plugin_vscode/" />
+    <meta itemprop="name" content="Debug IDA Pro plugins">
+    <meta itemprop="description" content="Debugging IDA Pro python plugins with VSCode">
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:title" content="Debug IDA Pro plugins"/>
+    <meta name="twitter:description" content="Debugging IDA Pro python plugins with VSCode"/>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+    <link rel="manifest" href="site.webmanifest">
+
+    
+    <link rel="stylesheet" href="https://0xd0cf11e.github.io/scss/style.min.a34717da646be60f7ae272dbe1282bfdb2c6245d72da31914334d644d8a5aaaa.css" >
+</head>
+<body>
+    <header>
+    <div class="header header-frame">
+        <div>
+          
+            <div class="header__title">Debug IDA Pro plugins</div>
+          
+            
+                <div class="header__description">Debugging IDA Pro python plugins with VSCode</div>
+            
+        </div>
+        <nav class="header-nav">
+            <ul class="header-nav-list header-nav-list--menu">
+                
+                
+                    
+                        <li class="header-nav-list__item">
+                            <a class="header-nav-list__link" href="/about/">
+                                
+                                <span>About</span>
+                            </a>
+                        </li>
+                    
+                
+            </ul>
+            <button class="header-nav-list__nav-btn">navigation</button>
+        </nav>
+        <button class="mb-header__menu-btn">
+            <span class="mb-header__menu-btn-line"></span>
+            <span class="mb-header__menu-btn-line"></span>
+            <span class="mb-header__menu-btn-line"></span>
+        </button>
+    </div>
+    <nav id="mobile-header-nav" class="mb-header-nav">
+  
+  
+  <a href="#" class="mb-header-nav__close-btn">
+    <svg
+            class="mb-header-nav__svg-icon"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="32"
+            height="32"
+            >
+            <path
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                />
+            <path d="M0 0h24v24H0z" fill="none" />
+        </svg>
+  </a>
+  
+    <div class="mb-header-nav__wrapper">
+        <div class="mb-header-nav__container">
+            <svg
+                width="240"
+                height="72"
+                viewBox="0 0 240 72"
+                class="mb-header-nav__title"
+                >
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
+                Tags
+                </text>
+            </svg>
+            <ul class="mb-header-nav-list">
+                
+                    
+                        
+                          <li class="mb-header-nav-list__item  cssonly ">
+                        <a class="mb-header-nav-list__link" href="https://0xd0cf11e.github.io/tags/ida/"
+                                                            >IDA</a
+                                                        >
+                    </li>
+                        
+                    
+                        
+                          <li class="mb-header-nav-list__item  cssonly ">
+                        <a class="mb-header-nav-list__link" href="https://0xd0cf11e.github.io/tags/python/"
+                                                            >python</a
+                                                        >
+                    </li>
+                        
+                    
+                        
+                          <li class="mb-header-nav-list__item  cssonly ">
+                        <a class="mb-header-nav-list__link" href="https://0xd0cf11e.github.io/tags/vscode/"
+                                                            >vscode</a
+                                                        >
+                    </li>
+                        
+                    
+                
+            </ul>
+        </div>
+        <div class="mb-header-nav__container">
+            <svg
+                width="240"
+                height="72"
+                viewBox="0 0 240 72"
+                class="mb-header-nav__title"
+                >
+                <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">
+                Menu
+                </text>
+            </svg>
+            <ul class="mb-header-nav-list">
+                
+                
+                    
+                      <li class="mb-header-nav-list__item  cssonly ">
+                            <a class="mb-header-nav-list__link" href="/about/">
+                                About
+                            </a>
+                        </li>
+                    
+                
+            </ul>
+        </div>
+    </div>
+</nav>
+
+</header>
+
+
+
+    <div id="content">
+<article class="post">
+  
+    <div class="post-content"><h2 id="table-of-contents"><strong>Table of Contents</strong></h2>
+<p><a href="#requirements">Requirements</a></p>
+<p><a href="#overview">Overview</a></p>
+<p><a href="#setup">Setup</a></p>
+<ol>
+<li><a href="#create-ida-python-plugin-to-enable-debugging">Create IDA python plugin to enable debugging</a></li>
+<li><a href="#configure-vscode">Configure vscode</a></li>
+<li><a href="#start-debugging">Start Debugging!</a></li>
+</ol>
+<p><a href="#resources">Resources</a></p>
+<hr>
+<h3 id="requirements">Requirements</h3>
+<ul>
+<li>IDA Pro 7.4+ (with python)</li>
+<li>Visual Studio Code (debugger IDE)</li>
+<li><a href="https://pypi.org/project/ptvsd/">ptvsd</a></li>
+</ul>
+<h1 id="overview">Overview</h1>
+<p>If vscode is your go to IDE for everything python, then you&rsquo;re probably aware of the module <code>ptvsd</code>. It enables debugging python scripts being run on another process by attaching to the Visual Studio debug server.</p>
+<hr>
+<p>&nbsp;</p>
+<h2 id="setup">Setup</h2>
+<p>&nbsp;</p>
+<h3 id="create-ida-python-plugin-to-enable-debugging">Create IDA python plugin to enable debugging</h3>
+<p>To enable vscode to debug your python plugin, it needs to run in the same directory as that of the plugin. This is the same directory where the plugins are stored for IDA.</p>
+<p><code>~/idapro-7.x/plugins/</code></p>
+<p>There are different ways of going about with this.</p>
+<p>What I found easier was to create an IDA python plugin that will enable the debugger, i.e. establish connections for the debug server to attach to.</p>
+<p>Below is the plugin script. Save it under the IDA plugins directory. I&rsquo;ve named it as <code>ptvsd_enable.py</code> with plugin name set to <code>PTVSD</code>.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">idaapi</span>
+<span style="color:#000;font-weight:bold">import</span> <span style="color:#555">ptvsd</span>
+
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">DebugPlugin</span>(idaapi<span style="color:#000;font-weight:bold">.</span>plugin_t):
+    <span style="color:#998;font-style:italic"># These parameters can be modified as needed.</span>
+    <span style="color:#998;font-style:italic"># - I&#39;ve set the flag to PLUGIN_FIX to make sure its in memory when IDA starts.</span>
+    <span style="color:#998;font-style:italic"># - A hotkey may come in handy if you debug often</span>
+    flags <span style="color:#000;font-weight:bold">=</span> idaapi<span style="color:#000;font-weight:bold">.</span>PLUGIN_FIX
+    comment <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;PTVSD Debug Enable&#34;</span>
+    help <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Enable debugging using PTVSD&#34;</span>
+    wanted_name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;PTVSD&#34;</span>
+    wanted_hotkey <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;&#34;</span>
+
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">init</span>(<span style="color:#999">self</span>):
+        <span style="color:#000;font-weight:bold">return</span> idaapi<span style="color:#000;font-weight:bold">.</span>PLUGIN_KEEP
+
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">term</span>(<span style="color:#999">self</span>):
+        <span style="color:#000;font-weight:bold">pass</span>
+
+    <span style="color:#998;font-style:italic"># The debuggee connection is initialized only when the plugin gets run</span>
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">run</span>(<span style="color:#999">self</span>, arg):
+        <span style="color:#998;font-style:italic"># Enable the debugger. Raises exception if called more than once.</span>
+        <span style="color:#000;font-weight:bold">try</span>:
+            ptvsd<span style="color:#000;font-weight:bold">.</span>enable_attach()
+            <span style="color:#998;font-style:italic"># For specifying own address, port, log directory</span>
+            <span style="color:#998;font-style:italic"># - The default host:port that vscode listens to is localhost:5678</span>
+            <span style="color:#998;font-style:italic"># - This can be modified as needed; especially if running IDA on a remote server</span>
+            <span style="color:#998;font-style:italic">#ptvsd.enable_attach(address=(&#39;localhost&#39;, 5678), log_dir=&#34;logs/&#34;)</span>
+            <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;ptvsd debugger enabled&#34;</span>)
+        <span style="color:#000;font-weight:bold">except</span> <span style="color:#900;font-weight:bold">Exception</span> <span style="color:#000;font-weight:bold">as</span> err:
+            <span style="color:#000;font-weight:bold">print</span>(err)
+
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">PLUGIN_ENTRY</span>():
+    <span style="color:#000;font-weight:bold">return</span> DebugPlugin()
+</code></pre></div><p>Check <a href="#resources">resources</a> for more info on writing scriptable IDA plugins.</p>
+<p>&nbsp;</p>
+<h3 id="configure-vscode">Configure vscode</h3>
+<p>Next is to configure the <code>launch.json</code> file in vscode to enable debugging the python plugin scripts.</p>
+<p>Below are the configuration settings to set:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#000080">&#34;configurations&#34;</span>: [
+        {
+            <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">Set</span> <span style="color:#a61717;background-color:#e3d2d2">name</span> <span style="color:#a61717;background-color:#e3d2d2">as</span> <span style="color:#a61717;background-color:#e3d2d2">desired;</span> <span style="color:#a61717;background-color:#e3d2d2">especially</span> <span style="color:#a61717;background-color:#e3d2d2">if</span> <span style="color:#a61717;background-color:#e3d2d2">you</span> <span style="color:#a61717;background-color:#e3d2d2">have</span> <span style="color:#a61717;background-color:#e3d2d2">a</span> <span style="color:#a61717;background-color:#e3d2d2">few</span> <span style="color:#a61717;background-color:#e3d2d2">different</span> <span style="color:#a61717;background-color:#e3d2d2">configurations</span>
+            <span style="color:#000080">&#34;name&#34;</span>: <span style="color:#d14">&#34;Python Attach: IDA python plugin&#34;</span>,
+            <span style="color:#000080">&#34;type&#34;</span>: <span style="color:#d14">&#34;python&#34;</span>,
+            <span style="color:#000080">&#34;request&#34;</span>: <span style="color:#d14">&#34;attach&#34;</span>,
+            <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">host</span> <span style="color:#a61717;background-color:#e3d2d2">and</span> <span style="color:#a61717;background-color:#e3d2d2">port</span> <span style="color:#a61717;background-color:#e3d2d2">should</span> <span style="color:#a61717;background-color:#e3d2d2">match</span> <span style="color:#a61717;background-color:#e3d2d2">that</span> <span style="color:#a61717;background-color:#e3d2d2">which</span> <span style="color:#a61717;background-color:#e3d2d2">was</span> <span style="color:#a61717;background-color:#e3d2d2">set</span> <span style="color:#a61717;background-color:#e3d2d2">in</span> <span style="color:#a61717;background-color:#e3d2d2">the</span> <span style="color:#a61717;background-color:#e3d2d2">PTVSD</span> <span style="color:#a61717;background-color:#e3d2d2">plugin</span>
+            <span style="color:#000080">&#34;host&#34;</span>: <span style="color:#d14">&#34;localhost&#34;</span>, <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">default</span> <span style="color:#a61717;background-color:#e3d2d2">host</span>
+            <span style="color:#000080">&#34;port&#34;</span>: <span style="color:#099">5678</span>, <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">default</span> <span style="color:#a61717;background-color:#e3d2d2">port</span>
+            <span style="color:#000080">&#34;pathMappings&#34;</span>: [
+                {
+                    <span style="color:#000080">&#34;localRoot&#34;</span>: <span style="color:#d14">&#34;/path-to/idapro-7.x/plugins/&#34;</span>,   <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">Local</span> <span style="color:#a61717;background-color:#e3d2d2">root</span>  <span style="color:#a61717;background-color:#e3d2d2">(where</span> <span style="color:#a61717;background-color:#e3d2d2">source</span> <span style="color:#a61717;background-color:#e3d2d2">and</span> <span style="color:#a61717;background-color:#e3d2d2">debugger</span> <span style="color:#a61717;background-color:#e3d2d2">running)</span>
+                    <span style="color:#000080">&#34;remoteRoot&#34;</span>: <span style="color:#d14">&#34;/path-to/idapro-7.x/plugins/&#34;</span>   <span style="color:#a61717;background-color:#e3d2d2">//</span> <span style="color:#a61717;background-color:#e3d2d2">Remote</span> <span style="color:#a61717;background-color:#e3d2d2">root</span> <span style="color:#a61717;background-color:#e3d2d2">(where</span> <span style="color:#a61717;background-color:#e3d2d2">remote</span> <span style="color:#a61717;background-color:#e3d2d2">code</span> <span style="color:#a61717;background-color:#e3d2d2">is</span> <span style="color:#a61717;background-color:#e3d2d2">running)</span>
+                }
+            ]
+        }
+    ]
+}
+</code></pre></div><p>Check <a href="#resources">resources</a> for more info on debugging python in vscode</p>
+<p>&nbsp;</p>
+<h3 id="preparing-your-ida-python-plugin">Preparing your IDA Python Plugin</h3>
+<p>To ease the debugging of your plugin, the flag <code>PLUGIN_UNL</code> needs to be set. This enables IDA to reload the plugin every time it is run, espcially after making changes to the script and without having to restart IDA everytime.</p>
+<p>And finally to call <code>breakpoint()</code> in your script where you want the debugger to pause. I was unable to get the debugger to pause at a toggled set breakpoint, and this call was able to set it for me. It needs to get once and from there toggle set breakpoints should work.</p>
+<p>Below is a sample python plugin to give an example. I&rsquo;ve also saved it as <code>sample_debuggee.py</code> under the IDA plugins folder.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#000;font-weight:bold">import</span> <span style="color:#555">idaapi</span>
+
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">my_debugged_function</span>():
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;This&#34;</span>)
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34;is cool&#34;</span>)
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34; :) &#34;</span>)
+    <span style="color:#000;font-weight:bold">print</span>(<span style="color:#d14">&#34; ~The End~&#34;</span>)
+
+<span style="color:#000;font-weight:bold">class</span> <span style="color:#458;font-weight:bold">SamplePlugin</span>(idaapi<span style="color:#000;font-weight:bold">.</span>plugin_t):
+    <span style="color:#998;font-style:italic"># Temporarily set this flag to enable reloading of script</span>
+    flags <span style="color:#000;font-weight:bold">=</span> idaapi<span style="color:#000;font-weight:bold">.</span>PLUGIN_UNL
+    comment <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Sample Debuggee&#34;</span>
+    help <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Sample Debuggee&#34;</span>
+    wanted_name <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;Sample Debuggee&#34;</span>
+    wanted_hotkey <span style="color:#000;font-weight:bold">=</span> <span style="color:#d14">&#34;&#34;</span>
+
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">init</span>(<span style="color:#999">self</span>):
+        <span style="color:#000;font-weight:bold">return</span> idaapi<span style="color:#000;font-weight:bold">.</span>PLUGIN_KEEP
+
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">term</span>(<span style="color:#999">self</span>):
+        <span style="color:#000;font-weight:bold">pass</span>
+
+    <span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">run</span>(<span style="color:#999">self</span>, arg):
+        <span style="color:#998;font-style:italic"># The debugger should pause here.</span>
+        <span style="color:#998;font-style:italic"># This call can be used anywhere you wish the debugger to pause at</span>
+        breakpoint()
+        my_debugged_function()
+
+<span style="color:#000;font-weight:bold">def</span> <span style="color:#900;font-weight:bold">PLUGIN_ENTRY</span>():
+    <span style="color:#000;font-weight:bold">return</span> SamplePlugin()
+</code></pre></div><p>&nbsp;</p>
+<h2 id="start-debugging">Start Debugging</h2>
+<ol>
+<li>
+<p>After the plugins are created in the IDA plugins directory and the python debug configuration is set, close any running of instance of IDA and start it up again.<p> </p></p>
+</li>
+<li>
+<p>Open up a new file or database and run the <code>PTVSD</code> plugin. I&rsquo;ve made the script to print <code>ptvsd debugger enabled</code> if all went well (see below).</p>
+</li>
+</ol>
+<img src="/debug_ida_plugin/ptvsd_connection_set.png" width="1000">
+<p>&nbsp;</p>
+<ol start="3">
+<li>Now run the debug configuration in vscode. Running the vscode debugger first would retun an error since it is attempting to listen for an existing connection at the given host and port.</li>
+</ol>
+<img src="/debug_ida_plugin/run_python_attach.png" width="500">
+<p>You should also see this debug menu appear (see below) if the debugger was able to successfully attach to our <code>PTVSD</code> plugin.</p>
+<img src="/debug_ida_plugin/debug_menu_bar.png" width="300">
+<p>&nbsp;</p>
+<ol start="4">
+<li><em>OPTIONAL:</em>  Run <code>netstat | grep 5678</code>. Grep on the port you&rsquo;ve provided. This will show if any connections got establised on the host:port we have assigned for debugging. Which would mean you&rsquo;re all set :)</li>
+</ol>
+<img src="/debug_ida_plugin/netstat.png" width="700">
+<p>&nbsp;</p>
+<ol start="5">
+<li>Finally, to start debugging your plugin, run it from IDA (after having set <code>breakpoint()</code> to where you&rsquo;d like the debugger to pause).</li>
+</ol>
+<p>You should see the debugger pauses as well as the debug menu bar enabling its debug commands. The debugger paused on line 26 on our sample plugin script as seen below:</p>
+<img src="/debug_ida_plugin/debugger_paused.png" width="700">
+<p>&nbsp;</p>
+<ol start="6">
+<li>The debugger can be disconnected at anytime. Running <code>netstat | grep 5678</code>, we see our <code>PTVSD</code> plugin wait for a connection to be established at the port 5678 (see below). This connection listens for a while before closing it upon which the <code>PTVSD</code> plugin would have to rerun to start another debugging session.</li>
+</ol>
+<img src="/debug_ida_plugin/netstat_wait.png" width="700">
+<p>&nbsp;</p>
+<hr>
+<h3 id="resources">Resources</h3>
+<p>IDA Python Plugins</p>
+<ul>
+<li>Scriptable IDA plugins - <a href="https://www.hex-rays.com/blog/scriptable-plugins/">https://www.hex-rays.com/blog/scriptable-plugins/</a></li>
+<li>Description of different flags used for building IDA Plugins - <a href="https://www.hex-rays.com/products/ida/support/sdkdoc/group___p_l_u_g_i_n__.html">https://www.hex-rays.com/products/ida/support/sdkdoc/group___p_l_u_g_i_n__.html</a></li>
+</ul>
+<p>VSCode Python</p>
+<ul>
+<li>Python debug configurations - <a href="https://code.visualstudio.com/docs/python/debugging">https://code.visualstudio.com/docs/python/debugging</a></li>
+</ul>
+</div>
+  
+</article>
+<button class="floating-button">
+    <a class="floating-button__link" href="https://0xd0cf11e.github.io">
+        <span>home</span>
+    </a>
+</button>
+
+
+    </div>
+    
+    <footer class="post-footer">
+    <div class="footer">
+        
+        <div class="footer__socials">
+
+
+
+<a
+  href="https://twitter.com/sud0suw"
+  target="_blank"
+  class="social-link"
+  title="Twitter link"
+  rel="noopener"
+  aria-label="follow on Twitter——Opens in a new window"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0v24h24v-24h-24zm18.862 9.237c.208 4.617-3.235 9.765-9.33 9.765-1.854 0-3.579-.543-5.032-1.475 1.742.205 3.48-.278 4.86-1.359-1.437-.027-2.649-.976-3.066-2.28.515.098 1.021.069 1.482-.056-1.579-.317-2.668-1.739-2.633-3.26.442.246.949.394 1.486.411-1.461-.977-1.875-2.907-1.016-4.383 1.619 1.986 4.038 3.293 6.766 3.43-.479-2.053 1.079-4.03 3.198-4.03.944 0 1.797.398 2.396 1.037.748-.147 1.451-.42 2.085-.796-.245.767-.766 1.41-1.443 1.816.664-.08 1.297-.256 1.885-.517-.44.656-.997 1.234-1.638 1.697z"/></svg>
+</a>
+
+
+
+
+<a
+  href="https://www.linkedin.com/in/suweera-de-souza-b5216321"
+  target="_blank"
+  class="social-link"
+  title="LinkedIn link"
+  rel="noopener"
+  aria-label="follow on LinkedIn——Opens in a new window"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0v24h24v-24h-24zm8 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.397-2.586 7-2.777 7 2.476v6.759z"/></svg>
+</a>
+
+
+<a
+  href="https://github.com/0xd0cf11e"
+  target="_blank"
+  class="social-link"
+  title="Github link"
+  rel="noopener"
+  aria-label="follow on Github——Opens in a new window"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M0 0v24h24v-24h-24zm14.534 19.59c-.406.078-.534-.171-.534-.384v-2.195c0-.747-.262-1.233-.55-1.481 1.782-.198 3.654-.875 3.654-3.947 0-.874-.311-1.588-.824-2.147.083-.202.357-1.016-.079-2.117 0 0-.671-.215-2.198.82-.639-.18-1.323-.267-2.003-.271-.68.003-1.364.091-2.003.269-1.528-1.035-2.2-.82-2.2-.82-.434 1.102-.16 1.915-.077 2.118-.512.56-.824 1.273-.824 2.147 0 3.064 1.867 3.751 3.645 3.954-.229.2-.436.552-.508 1.07-.457.204-1.614.557-2.328-.666 0 0-.423-.768-1.227-.825 0 0-.78-.01-.055.487 0 0 .525.246.889 1.17 0 0 .463 1.428 2.688.944v1.489c0 .211-.129.459-.528.385-3.18-1.057-5.472-4.056-5.472-7.59 0-4.419 3.582-8 8-8s8 3.581 8 8c0 3.533-2.289 6.531-5.466 7.59z"/></svg>
+</a>
+
+
+
+
+</div>
+    </div>
+</footer>
+
+
+    
+    
+      
+    
+  </body>
+</html>

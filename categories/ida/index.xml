@@ -1,24 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>sud0suw</title>
-    <link>https://0xd0cf11e.github.io/</link>
-    <description>Recent content on sud0suw</description>
+    <title>IDA on sud0suw</title>
+    <link>https://0xd0cf11e.github.io/categories/ida/</link>
+    <description>Recent content in IDA on sud0suw</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 26 Apr 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://0xd0cf11e.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://0xd0cf11e.github.io/categories/ida/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>About</title>
-      <link>https://0xd0cf11e.github.io/about/</link>
-      <pubDate>Sun, 26 Apr 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://0xd0cf11e.github.io/about/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Debug IDA Pro plugins</title>
